@@ -7,7 +7,6 @@ const API_URL = "https://script.google.com/macros/s/AKfycbwyXciqqkL16fiwp6dltjkE
 class LogistikModel {
   static async fetchAPI(action, payload = {}) {
     try {
-      // Menggunakan URL object agar aman dari karakter tersembunyi / spasi Safari iOS
       const cleanUrl = API_URL.trim();
       const urlObj = new URL(cleanUrl);
       
