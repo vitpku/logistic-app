@@ -385,11 +385,14 @@
 
       const res = await fetchAPI(isKeluar ? 'simpanBarangKeluar' : 'simpanBarangMasuk', dataForm);
       if (res.status === 'success') {
-        Swal.fire({ icon: 'success', title: 'Berhasil', text: res.message, timer: 1500, showConfirmButton: false });
         e.target.reset();
         if (isKeluar && tsBarangKeluar) tsBarangKeluar.clear();
         if (!isKeluar && tsBarangMasuk) { tsBarangMasuk.clear(); tsSupplier.clear(); }
-        memuatData();
+        
+        // Tahan layar dengan animasi loading saat menarik data baru
+        Swal.fire({ title: 'Sinkronisasi Data...', text: 'Mengambil data terbaru dari server', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        await memuatData(); // Tunggu sampai selesai sepenuhnya
+        Swal.fire({ icon: 'success', title: 'Berhasil', text: res.message, timer: 1500, showConfirmButton: false });
       } else {
         Swal.fire({ icon: 'error', title: 'Gagal', text: res.message });
       }
@@ -443,20 +446,28 @@
       const res = await fetchAPI(actionPath, dt);
       
       if (res.status === 'success') {
-        Swal.fire({ icon: 'success', title: 'Berhasil', text: res.message, timer: 1500, showConfirmButton: false });
         if (tipe === 'barang') modalBarangUI.hide(); else if (tipe === 'supplier') modalSupplierUI.hide(); else modalDepartemenUI.hide();
-        memuatData();
+        
+        // Tahan layar dengan animasi loading saat menarik data baru
+        Swal.fire({ title: 'Memperbarui Tabel...', text: 'Mohon tunggu sebentar', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        await memuatData(); // Tunggu sampai selesai sepenuhnya
+        Swal.fire({ icon: 'success', title: 'Berhasil', text: res.message, timer: 1500, showConfirmButton: false });
       } else Swal.fire('Error', res.message, 'error');
       btn.disabled = false; btn.innerHTML = 'Simpan';
     }
 
-    async function konfirmasiHapus(sheetName, kode) {
+   async function konfirmasiHapus(sheetName, kode) {
       const resConf = await Swal.fire({ title: 'Hapus Data?', text: `Menghapus "${kode}" permanen.`, icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Hapus!' });
       if (!resConf.isConfirmed) return;
       
-      Swal.fire({ title: 'Menghapus...', didOpen: () => Swal.showLoading() });
+      Swal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
       const res = await fetchAPI('hapusData', { sheetName, kode });
-      if (res.status === 'success') { Swal.fire({ icon: 'success', title: 'Terhapus!', timer: 1500, showConfirmButton: false }); memuatData(); }
+      if (res.status === 'success') { 
+        // Tahan layar dengan animasi loading saat menarik data baru
+        Swal.fire({ title: 'Memperbarui Tabel...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        await memuatData(); // Tunggu sampai selesai sepenuhnya
+        Swal.fire({ icon: 'success', title: 'Terhapus!', timer: 1500, showConfirmButton: false }); 
+      }
       else Swal.fire('Gagal', res.message, 'error');
     }
   </script>
