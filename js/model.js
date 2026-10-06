@@ -2,7 +2,7 @@
 // KONFIGURASI API BACKEND 
 // Ganti dengan URL Web App Apps Script milikmu yang baru
 // =========================================================
-const API_URL = "https://script.google.com/macros/s/AKfycbwyXciqqkL16fiwp6dltjkEukYUqdVyOrn9XbN4CBHC0U5nNgyX2tkkHGftWm81E5nt2g/exec".trim();
+const API_URL = "https://script.google.com/macros/s/AKfycbwyXciqqkL16fiwp6dltjkEukYUqdVyOrn9XbN4CBHC0U5nNgyX2tkkHGftWm81E5nt2g/exec";
 
 class LogistikModel {
   static async fetchAPI(action, payload = {}) {
