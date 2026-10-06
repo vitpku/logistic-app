@@ -5,37 +5,19 @@
   <title>ERP Logistics Dashboard - VIT</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <!-- GOOGLE FONT -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- BOOTSTRAP -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- FONT AWESOME -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- TOM SELECT -->
   <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
-  <!-- SWEETALERT -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <!-- DATATABLES -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
   <style>
-    /* CSS Tema Industrial / Enterprise */
-    :root {
-      --bg-color: #f3f4f6;
-      --sidebar-bg: #1e1e2d;
-      --sidebar-hover: #2b2b40;
-      --primary: #3b82f6;
-      --text-main: #3f4254;
-      --border-light: #e4e6ef;
-    }
+    :root { --bg-color: #f3f4f6; --sidebar-bg: #1e1e2d; --sidebar-hover: #2b2b40; --primary: #3b82f6; --text-main: #3f4254; --border-light: #e4e6ef; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; }
-    
-    /* Layout Framework */
     .wrapper { display: flex; min-height: 100vh; }
-    .sidebar { width: 260px; background-color: var(--sidebar-bg); color: #9899ac; flex-shrink: 0; transition: 0.3s; padding-top: 15px; }
+    .sidebar { width: 260px; background-color: var(--sidebar-bg); color: #9899ac; flex-shrink: 0; padding-top: 15px; }
     .main-content { flex-grow: 1; padding: 30px; background-color: var(--bg-color); min-width: 0; }
-    
-    /* Sidebar Styling */
     .sidebar-brand { display: flex; align-items: center; padding: 10px 25px 25px 25px; color: #fff; font-weight: 700; font-size: 1.2rem; }
     .sidebar-brand img { height: 35px; margin-right: 12px; background: white; padding: 4px; border-radius: 6px; }
     .nav-pills .nav-link { color: #9899ac; font-weight: 500; padding: 12px 25px; border-radius: 0; margin-bottom: 2px; display: flex; align-items: center; cursor: pointer; transition: 0.2s; }
@@ -43,48 +25,30 @@
     .nav-pills .nav-link:hover { color: #fff; background-color: var(--sidebar-hover); }
     .nav-pills .nav-link.active { color: #fff; background-color: var(--primary); font-weight: 600; border-right: 4px solid #fff; }
     .sidebar-heading { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #565674; margin: 20px 25px 10px 25px; font-weight: 700; }
-    
-    /* Cards & UI Elements */
     .card { border: none; border-radius: 12px; box-shadow: 0 0 20px 0 rgba(76, 87, 125, 0.05); background: #fff; margin-bottom: 30px; }
     .card-header { background: transparent; border-bottom: 1px dashed var(--border-light); padding: 20px 25px; font-weight: 700; color: #181c32; font-size: 1.1rem; }
     .table th { text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; color: #b5b5c3; font-weight: 600; border-bottom: 1px dashed var(--border-light); }
     .table td { vertical-align: middle; color: #3f4254; font-weight: 500; font-size: 0.9rem; border-bottom: 1px dashed var(--border-light); }
-    
-    /* Status Badges */
     .badge-soft-success { background-color: #e8fff3; color: #0dbb72; padding: 6px 12px; border-radius: 6px; font-weight: 600; }
     .badge-soft-danger { background-color: #fff5f8; color: #f1416c; padding: 6px 12px; border-radius: 6px; font-weight: 600; }
     .badge-dept { background-color: #f1f1f2; color: #7e8299; padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
-    
-    /* Utilities */
     .hidden { display: none !important; }
     .btn-primary { background-color: var(--primary); border: none; font-weight: 600; padding: 10px 20px; border-radius: 8px; }
-    .btn-login-header { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 8px; font-size: 0.85rem; width: 80%; margin: 20px auto; display: block; text-align: center; cursor: pointer; transition: 0.3s; }
+    .btn-login-header { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 8px; font-size: 0.85rem; width: 80%; margin: 20px auto; display: block; text-align: center; cursor: pointer; }
     .btn-login-header:hover { background: #f1416c; border-color: #f1416c; }
-    
-    /* DataTables override */
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current { background: var(--primary) !important; color: white !important; border: none; border-radius: 6px; }
-    .form-control, .form-select { border-color: var(--border-light); border-radius: 8px; padding: 10px 15px; box-shadow: none; font-weight: 500; }
-    .form-control:focus, .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
-    
-    /* Topbar untuk Mobile Publik */
     .public-topbar { background: #fff; padding: 15px 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 30px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
   </style>
 </head>
 
 <body>
-
   <div class="wrapper">
     
-    <!-- ==========================================
-       SIDEBAR NAVIGASI (HANYA MUNCUL JIKA ADMIN)
-       ========================================== -->
+    <!-- SIDEBAR ADMIN -->
     <div class="sidebar hidden" id="adminSidebar">
-      <div class="sidebar-brand">
-        <i class="fa-solid fa-industry fs-3 me-2"></i> VIT Logistics
-      </div>
+      <div class="sidebar-brand"><i class="fa-solid fa-industry fs-3 me-2"></i> VIT Logistics</div>
       
       <div class="sidebar-heading">Transaksi</div>
-      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <div class="nav flex-column nav-pills" role="tablist">
         <a class="nav-link active" data-bs-toggle="pill" data-bs-target="#keluar" role="tab"><i class="fa-solid fa-arrow-right-from-bracket text-danger"></i> Input Keluar</a>
         <a class="nav-link" data-bs-toggle="pill" data-bs-target="#masuk" role="tab"><i class="fa-solid fa-arrow-right-to-bracket text-success"></i> Input Masuk</a>
         
@@ -98,17 +62,15 @@
         <a class="nav-link" data-bs-toggle="pill" data-bs-target="#departemen" role="tab"><i class="fa-solid fa-network-wired text-info"></i> Departemen</a>
       </div>
 
-      <button class="btn-login-header" onclick="logoutAdmin()"><i class="fa-solid fa-power-off me-2"></i>Keluar Sistem</button>
+      <button class="btn-login-header" id="btnLogout"><i class="fa-solid fa-power-off me-2"></i>Keluar Sistem</button>
     </div>
 
-    <!-- ==========================================
-       KONTEN UTAMA
-       ========================================== -->
+    <!-- KONTEN UTAMA -->
     <div class="main-content">
       
-      <!-- AREA PUBLIK (Tampil pertama kali) -->
+      <!-- AREA PUBLIK -->
       <div id="publicArea">
-        <div class="public-topbar d-flex align-items-center">
+        <div class="public-topbar">
           <div class="d-flex align-items-center">
             <i class="fa-solid fa-industry text-primary fs-2 me-3"></i>
             <div>
@@ -116,7 +78,7 @@
               <small class="text-muted">Cek Ketersediaan Stok Real-Time</small>
             </div>
           </div>
-          <button class="btn btn-dark" onclick="showLogin()"><i class="fa-solid fa-lock me-2"></i> Akses Admin</button>
+          <button class="btn btn-dark" id="btnLoginTrigger"><i class="fa-solid fa-lock me-2"></i> Akses Admin</button>
         </div>
 
         <div class="card">
@@ -138,338 +100,88 @@
         </div>
       </div>
 
-      <!-- AREA ADMIN CONTENT (Disembunyikan awalnya) -->
+      <!-- AREA ADMIN CONTENT -->
       <div id="adminAreaContent" class="hidden tab-content">
-        
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="fw-bold mb-0" style="color: #181c32;">Dashboard Administrator</h3>
+          <h3 class="fw-bold mb-0">Dashboard Administrator</h3>
           <span class="badge bg-light text-dark border"><i class="fa-solid fa-circle text-success me-1" style="font-size: 8px;"></i> Terhubung</span>
         </div>
 
         <!-- TAB: KELUAR -->
         <div class="tab-pane fade show active" id="keluar">
-          <div class="card">
-            <div class="card-header"><i class="fa-solid fa-arrow-right-from-bracket text-danger me-2"></i> Catat Pemakaian Barang</div>
-            <div class="card-body">
-              <form id="formBarangKeluar" onsubmit="handleTransaksi(event, 'keluar')">
-                <div class="row">
-                  <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Pilih Barang</label><select id="k_kode" required autocomplete="off"></select></div>
-                  <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Jumlah Diambil</label><input type="number" class="form-control" id="k_jumlah" min="1" required></div>
-                  <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Departemen</label><select class="form-select" id="k_dept" required></select></div>
-                  <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Nama Pengambil</label><input type="text" class="form-control" id="k_ket" required></div>
-                </div>
-                <button type="submit" class="btn btn-danger px-4 py-2 mt-2" id="btnSimpanKeluar"><i class="fa-solid fa-check me-2"></i> Proses Pemakaian</button>
-              </form>
-            </div>
-          </div>
+          <div class="card"><div class="card-header"><i class="fa-solid fa-arrow-right-from-bracket text-danger me-2"></i> Catat Pemakaian Barang</div>
+          <div class="card-body">
+            <form id="formBarangKeluar">
+              <div class="row">
+                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Pilih Barang</label><select id="k_kode" required autocomplete="off"></select></div>
+                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Jumlah Diambil</label><input type="number" class="form-control" id="k_jumlah" min="1" required></div>
+                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Departemen</label><select class="form-select" id="k_dept" required></select></div>
+                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Nama Pengambil</label><input type="text" class="form-control" id="k_ket" required></div>
+              </div>
+              <button type="submit" class="btn btn-danger px-4 py-2 mt-2"><i class="fa-solid fa-check me-2"></i> Proses Pemakaian</button>
+            </form>
+          </div></div>
         </div>
 
         <!-- TAB: MASUK -->
         <div class="tab-pane fade" id="masuk">
-          <div class="card">
-            <div class="card-header"><i class="fa-solid fa-arrow-right-to-bracket text-success me-2"></i> Terima Pasokan Barang</div>
-            <div class="card-body">
-              <form id="formBarangMasuk" onsubmit="handleTransaksi(event, 'masuk')">
-                <div class="row">
-                  <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Pilih Barang</label><select id="m_kode_masuk" required autocomplete="off"></select></div>
-                  <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Jumlah Diterima</label><input type="number" class="form-control" id="m_jumlah_masuk" min="1" required></div>
-                  <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Supplier (Pemasok)</label><select id="m_supplier" required autocomplete="off"></select></div>
-                  <div class="col-md-6 mb-3"><label class="form-label small fw-bold">No. Surat Jalan / Ket</label><input type="text" class="form-control" id="m_ket_masuk" required></div>
-                </div>
-                <button type="submit" class="btn btn-success px-4 py-2 mt-2" id="btnSimpanMasuk"><i class="fa-solid fa-check me-2"></i> Proses Penerimaan</button>
-              </form>
-            </div>
-          </div>
+          <div class="card"><div class="card-header"><i class="fa-solid fa-arrow-right-to-bracket text-success me-2"></i> Terima Pasokan Barang</div>
+          <div class="card-body">
+            <form id="formBarangMasuk">
+              <div class="row">
+                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Pilih Barang</label><select id="m_kode_masuk" required autocomplete="off"></select></div>
+                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Jumlah Diterima</label><input type="number" class="form-control" id="m_jumlah_masuk" min="1" required></div>
+                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Supplier (Pemasok)</label><select id="m_supplier" required autocomplete="off"></select></div>
+                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">No. Surat Jalan / Ket</label><input type="text" class="form-control" id="m_ket_masuk" required></div>
+              </div>
+              <button type="submit" class="btn btn-success px-4 py-2 mt-2"><i class="fa-solid fa-check me-2"></i> Proses Penerimaan</button>
+            </form>
+          </div></div>
         </div>
 
         <!-- TAB: MASTER BARANG -->
         <div class="tab-pane fade" id="master">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <span><i class="fa-solid fa-database text-primary me-2"></i> Database Master Barang</span>
-              <div class="d-flex gap-2">
-                <select id="filterMasterDept" class="form-select form-select-sm" style="min-width: 150px;"><option value="">Semua Dept</option></select>
-                <button class="btn btn-primary btn-sm px-3" onclick="bukaModalBarang('tambah')"><i class="fa-solid fa-plus me-1"></i> Baru</button>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table id="tableMasterBarang" class="table align-middle w-100">
-                  <thead><tr><th>Kode</th><th>Item</th><th>Stok</th><th>Min</th><th>Dept</th><th class="text-center">Aksi</th></tr></thead>
-                  <tbody id="dataBarangAdminBody"></tbody>
-                </table>
-              </div>
+          <div class="card"><div class="card-header d-flex justify-content-between align-items-center">
+            <span><i class="fa-solid fa-database text-primary me-2"></i> Master Barang</span>
+            <div class="d-flex gap-2">
+              <select id="filterMasterDept" class="form-select form-select-sm" style="min-width: 150px;"><option value="">Semua Dept</option></select>
+              <button class="btn btn-primary btn-sm px-3" onclick="LogistikController.bukaModalBarang('tambah')"><i class="fa-solid fa-plus me-1"></i> Baru</button>
             </div>
           </div>
+          <div class="card-body"><div class="table-responsive"><table id="tableMasterBarang" class="table align-middle w-100"><thead><tr><th>Kode</th><th>Item</th><th>Stok</th><th>Min</th><th>Dept</th><th class="text-center">Aksi</th></tr></thead><tbody id="dataBarangAdminBody"></tbody></table></div></div></div>
         </div>
 
         <!-- TAB: HISTORI KELUAR -->
-        <div class="tab-pane fade" id="historiKeluar">
-          <div class="card">
-            <div class="card-header"><i class="fa-solid fa-list-check text-danger me-2"></i> Riwayat Barang Keluar</div>
-            <div class="card-body">
-              <div class="table-responsive"><table id="tableHistoriKeluar" class="table align-middle w-100"><thead><tr><th>Waktu</th><th>ID Transaksi</th><th>Nama Barang</th><th>Jumlah</th><th>Dept / Peminta</th><th>Nama Pengambil</th></tr></thead><tbody id="dataHistoriKeluarBody"></tbody></table></div>
-            </div>
-          </div>
-        </div>
+        <div class="tab-pane fade" id="historiKeluar"><div class="card"><div class="card-header"><i class="fa-solid fa-list-check text-danger me-2"></i> Riwayat Barang Keluar</div><div class="card-body"><div class="table-responsive"><table id="tableHistoriKeluar" class="table align-middle w-100"><thead><tr><th>Waktu</th><th>ID Transaksi</th><th>Nama Barang</th><th>Jumlah</th><th>Dept / Peminta</th><th>Nama Pengambil</th></tr></thead><tbody id="dataHistoriKeluarBody"></tbody></table></div></div></div></div>
 
         <!-- TAB: HISTORI MASUK -->
-        <div class="tab-pane fade" id="historiMasuk">
-          <div class="card">
-            <div class="card-header"><i class="fa-solid fa-list-check text-success me-2"></i> Riwayat Barang Masuk</div>
-            <div class="card-body">
-              <div class="table-responsive"><table id="tableHistoriMasuk" class="table align-middle w-100"><thead><tr><th>Waktu</th><th>ID Transaksi</th><th>Nama Barang</th><th>Jumlah</th><th>Supplier</th><th>Keterangan</th></tr></thead><tbody id="dataHistoriMasukBody"></tbody></table></div>
-            </div>
-          </div>
-        </div>
+        <div class="tab-pane fade" id="historiMasuk"><div class="card"><div class="card-header"><i class="fa-solid fa-list-check text-success me-2"></i> Riwayat Barang Masuk</div><div class="card-body"><div class="table-responsive"><table id="tableHistoriMasuk" class="table align-middle w-100"><thead><tr><th>Waktu</th><th>ID Transaksi</th><th>Nama Barang</th><th>Jumlah</th><th>Supplier</th><th>Keterangan</th></tr></thead><tbody id="dataHistoriMasukBody"></tbody></table></div></div></div></div>
 
-        <!-- TAB: SUPPLIER & DEPARTEMEN -->
-        <div class="tab-pane fade" id="supplier"><div class="card"><div class="card-header d-flex justify-content-between align-items-center"><span><i class="fa-solid fa-users text-warning me-2"></i> Master Supplier</span><button class="btn btn-warning btn-sm text-dark px-3 fw-bold" onclick="bukaModalSupplier('tambah')"><i class="fa-solid fa-plus me-1"></i> Baru</button></div><div class="card-body"><div class="table-responsive"><table id="tableSupplier" class="table align-middle w-100"><thead><tr><th>Kode</th><th>Vendor</th><th>Kontak</th><th>Alamat</th><th class="text-center">Aksi</th></tr></thead><tbody id="dataSupplierBody"></tbody></table></div></div></div></div>
+        <!-- TAB: SUPPLIER -->
+        <div class="tab-pane fade" id="supplier"><div class="card"><div class="card-header d-flex justify-content-between align-items-center"><span><i class="fa-solid fa-users text-warning me-2"></i> Master Supplier</span><button class="btn btn-warning btn-sm text-dark px-3 fw-bold" onclick="LogistikController.bukaModalSupplier('tambah')"><i class="fa-solid fa-plus me-1"></i> Baru</button></div><div class="card-body"><div class="table-responsive"><table id="tableSupplier" class="table align-middle w-100"><thead><tr><th>Kode</th><th>Vendor</th><th>Kontak</th><th>Keterangan</th><th class="text-center">Aksi</th></tr></thead><tbody id="dataSupplierBody"></tbody></table></div></div></div></div>
         
-        <div class="tab-pane fade" id="departemen"><div class="card"><div class="card-header d-flex justify-content-between align-items-center"><span><i class="fa-solid fa-network-wired text-info me-2"></i> Master Departemen</span><button class="btn btn-info btn-sm text-white px-3 fw-bold" onclick="bukaModalDepartemen('tambah')"><i class="fa-solid fa-plus me-1"></i> Baru</button></div><div class="card-body"><div class="table-responsive"><table id="tableDepartemen" class="table align-middle w-100"><thead><tr><th>Kode</th><th>Nama Departemen</th><th class="text-center">Aksi</th></tr></thead><tbody id="dataDepartemenBody"></tbody></table></div></div></div></div>
+        <!-- TAB: DEPARTEMEN -->
+        <div class="tab-pane fade" id="departemen"><div class="card"><div class="card-header d-flex justify-content-between align-items-center"><span><i class="fa-solid fa-network-wired text-info me-2"></i> Master Departemen</span><button class="btn btn-info btn-sm text-white px-3 fw-bold" onclick="LogistikController.bukaModalDepartemen('tambah')"><i class="fa-solid fa-plus me-1"></i> Baru</button></div><div class="card-body"><div class="table-responsive"><table id="tableDepartemen" class="table align-middle w-100"><thead><tr><th>Kode</th><th>Nama Departemen</th><th class="text-center">Aksi</th></tr></thead><tbody id="dataDepartemenBody"></tbody></table></div></div></div></div>
 
       </div>
     </div>
   </div>
 
-  <!-- MODAL FORM (Format HTML Modal tetap sama namun CSS dirapikan sedikit) -->
-  <!-- BARANG -->
-  <div class="modal fade" id="modalBarang" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-light"><h5 class="modal-title fw-bold" id="titleBarang">Barang</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="formBarang" onsubmit="simpanData(event, 'barang')"><div class="modal-body"><input type="hidden" id="barangMode"><div class="mb-3"><label class="form-label small fw-semibold">Kode Barang</label><input type="text" class="form-control" id="b_kode" required></div><div class="mb-3"><label class="form-label small fw-semibold">Nama Barang</label><input type="text" class="form-control" id="b_nama" required></div><div class="row"><div class="col-6 mb-3"><label class="form-label small fw-semibold">Merek</label><input type="text" class="form-control" id="b_merek"></div><div class="col-6 mb-3"><label class="form-label small fw-semibold">Satuan</label><input type="text" class="form-control" id="b_satuan" required></div><div class="col-6 mb-3"><label class="form-label small fw-semibold">Stok Saat Ini</label><input type="number" class="form-control" id="b_stok" min="0" value="0" required></div><div class="col-6 mb-3"><label class="form-label small fw-semibold">Min Stok</label><input type="number" class="form-control" id="b_min" min="0" value="0" required></div></div><div class="mb-2"><label class="form-label small fw-semibold">Departemen</label><select class="form-select" id="b_dept" required></select></div></div><div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary" id="btnSaveBarang">Simpan</button></div></form></div></div></div>
-  <!-- SUPPLIER -->
-  <div class="modal fade" id="modalSupplier" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-light"><h5 class="modal-title fw-bold" id="titleSupplier">Supplier</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="formSupplier" onsubmit="simpanData(event, 'supplier')"><div class="modal-body"><input type="hidden" id="supplierMode"><div class="mb-3"><label class="form-label small fw-semibold">Kode Supplier</label><input type="text" class="form-control" id="s_kode" required></div><div class="mb-3"><label class="form-label small fw-semibold">Nama Perusahaan</label><input type="text" class="form-control" id="s_nama" required></div><div class="mb-3"><label class="form-label small fw-semibold">Spesifikasi Vendor</label><input type="text" class="form-control" id="s_spek" required></div><div class="mb-3"><label class="form-label small fw-semibold">No Telepon / WA</label><input type="text" class="form-control" id="s_telp"></div><div class="mb-3"><label class="form-label small fw-semibold">Alamat Lengkap</label><textarea class="form-control" id="s_alamat" rows="2"></textarea></div><div class="mb-2"><label class="form-label small fw-semibold">Keterangan</label><input type="text" class="form-control" id="s_ket"></div></div><div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary" id="btnSaveSupplier">Simpan</button></div></form></div></div></div>
-  <!-- DEPARTEMEN -->
-  <div class="modal fade" id="modalDepartemen" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-light"><h5 class="modal-title fw-bold" id="titleDepartemen">Departemen</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="formDepartemen" onsubmit="simpanData(event, 'departemen')"><div class="modal-body"><input type="hidden" id="departemenMode"><div class="mb-3"><label class="form-label small fw-semibold">Kode Departemen</label><input type="text" class="form-control" id="d_kode" required></div><div class="mb-3"><label class="form-label small fw-semibold">Nama Departemen</label><input type="text" class="form-control" id="d_nama" required></div></div><div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary" id="btnSaveDepartemen">Simpan</button></div></form></div></div></div>
+  <!-- MODALS -->
+  <div class="modal fade" id="modalBarang" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-light"><h5 class="modal-title fw-bold" id="titleBarang">Barang</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="formBarang"><div class="modal-body"><input type="hidden" id="barangMode"><div class="mb-3"><label class="form-label small fw-semibold">Kode Barang</label><input type="text" class="form-control" id="b_kode" required></div><div class="mb-3"><label class="form-label small fw-semibold">Nama Barang</label><input type="text" class="form-control" id="b_nama" required></div><div class="row"><div class="col-6 mb-3"><label class="form-label small fw-semibold">Merek</label><input type="text" class="form-control" id="b_merek"></div><div class="col-6 mb-3"><label class="form-label small fw-semibold">Satuan</label><input type="text" class="form-control" id="b_satuan" required></div><div class="col-6 mb-3"><label class="form-label small fw-semibold">Stok Saat Ini</label><input type="number" class="form-control" id="b_stok" min="0" value="0" required></div><div class="col-6 mb-3"><label class="form-label small fw-semibold">Min Stok</label><input type="number" class="form-control" id="b_min" min="0" value="0" required></div></div><div class="mb-2"><label class="form-label small fw-semibold">Departemen</label><select class="form-select" id="b_dept" required></select></div></div><div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary" id="btnSaveBarang">Simpan</button></div></form></div></div></div>
+  <div class="modal fade" id="modalSupplier" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-light"><h5 class="modal-title fw-bold" id="titleSupplier">Supplier</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="formSupplier"><div class="modal-body"><input type="hidden" id="supplierMode"><div class="mb-3"><label class="form-label small fw-semibold">Kode Supplier</label><input type="text" class="form-control" id="s_kode" required></div><div class="mb-3"><label class="form-label small fw-semibold">Nama Perusahaan</label><input type="text" class="form-control" id="s_nama" required></div><div class="mb-3"><label class="form-label small fw-semibold">Spesifikasi Vendor</label><input type="text" class="form-control" id="s_spek" required></div><div class="mb-3"><label class="form-label small fw-semibold">No Telepon / WA</label><input type="text" class="form-control" id="s_telp"></div><div class="mb-3"><label class="form-label small fw-semibold">Alamat Lengkap</label><textarea class="form-control" id="s_alamat" rows="2"></textarea></div><div class="mb-2"><label class="form-label small fw-semibold">Keterangan</label><input type="text" class="form-control" id="s_ket"></div></div><div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary" id="btnSaveSupplier">Simpan</button></div></form></div></div></div>
+  <div class="modal fade" id="modalDepartemen" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-light"><h5 class="modal-title fw-bold" id="titleDepartemen">Departemen</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="formDepartemen"><div class="modal-body"><input type="hidden" id="departemenMode"><div class="mb-3"><label class="form-label small fw-semibold">Kode Departemen</label><input type="text" class="form-control" id="d_kode" required></div><div class="mb-3"><label class="form-label small fw-semibold">Nama Departemen</label><input type="text" class="form-control" id="d_nama" required></div></div><div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary" id="btnSaveDepartemen">Simpan</button></div></form></div></div></div>
 
-  <!-- JAVASCRIPT -->
+  <!-- SCRIPTS -->
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
-  <script>
-    // =========================================================
-    // KONFIGURASI API BACKEND 
-    // Ganti URL ini dengan URL Web App hasil deploy terbarumu!
-    // =========================================================
-    const API_URL ='https://script.google.com/macros/s/AKfycbwyXciqqkL16fiwp6dltjkEukYUqdVyOrn9XbN4CBHC0U5nNgyX2tkkHGftWm81E5nt2g/exec'.trim();
-
-    let db = { stok: [], supplier: [], departemen: [], keluar: [], masuk: [] };
-    let modalBarangUI, modalSupplierUI, modalDepartemenUI;
-    let tsBarangKeluar, tsBarangMasuk, tsSupplier;
-
-    // Fungsi Fetch API (Pengganti google.script.run)
-    async function fetchAPI(action, dataObj = {}) {
-      try {
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          // Menggunakan text/plain agar tidak terblokir aturan CORS browser (preflight issue)
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: action, data: dataObj })
-        });
-        return await response.json();
-      } catch (err) {
-        return { status: 'error', message: 'Koneksi ke server gagal. ' + err.message };
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      modalBarangUI = new bootstrap.Modal(document.getElementById('modalBarang'));
-      modalSupplierUI = new bootstrap.Modal(document.getElementById('modalSupplier'));
-      modalDepartemenUI = new bootstrap.Modal(document.getElementById('modalDepartemen'));
-      memuatData();
-    });
-
-    async function memuatData() {
-      const result = await fetchAPI('getAppData');
-      if (result.status === 'success') {
-        db = result.data;
-        renderSemua();
-      } else {
-        document.getElementById('dataBarangPublicBody').innerHTML = `<tr><td colspan="5" class="text-center py-5 text-danger"><i class="fa-solid fa-triangle-exclamation fa-2x mb-3"></i><br>Gagal memuat: ${result.message}</td></tr>`;
-      }
-    }
-
-    function renderSemua() {
-      const tableIds = ['#tablePublicBarang', '#tableMasterBarang', '#tableSupplier', '#tableDepartemen', '#tableHistoriKeluar', '#tableHistoriMasuk'];
-      tableIds.forEach(id => { if ($.fn.DataTable.isDataTable(id)) $(id).DataTable().destroy(); });
-
-      let tbodyPub = '', tbodyAdm = '', optBarang = '<option value="">-- Ketik Nama atau Kode --</option>';
-      db.stok.forEach(item => {
-        const isCrit = Number(item.stok) <= Number(item.minStok);
-        const status = isCrit ? '<span class="badge-soft-danger">Kritis</span>' : '<span class="badge-soft-success">Aman</span>';
-        const txtStok = isCrit ? `<span class="text-danger fw-bold">${item.stok} ${item.satuan}</span>` : `<b>${item.stok}</b> <span class="text-muted">${item.satuan}</span>`;
-        
-        tbodyPub += `<tr><td><span class="text-primary fw-bold">${item.kode}</span></td><td><b>${item.nama}</b><br><small class="text-muted">${item.merek || '-'}</small></td><td><span class="badge-dept">${item.peruntukan}</span></td><td>${txtStok}</td><td>${status}</td></tr>`;
-        tbodyAdm += `<tr><td class="fw-bold">${item.kode}</td><td>${item.nama}<br><small class="text-muted">${item.merek || '-'}</small></td><td class="fw-bold text-center">${item.stok} <small>${item.satuan}</small></td><td class="text-center text-muted">${item.minStok}</td><td><span class="badge-dept">${item.peruntukan}</span></td><td class="text-center"><button class="btn btn-sm btn-light text-primary me-1" data-kode="${item.kode}" onclick="bukaModalBarang('edit', this.getAttribute('data-kode'))"><i class="fa-solid fa-pen"></i></button><button class="btn btn-sm btn-light text-danger" data-kode="${item.kode}" onclick="konfirmasiHapus('Master_Barang', this.getAttribute('data-kode'))"><i class="fa-solid fa-trash"></i></button></td></tr>`;
-        optBarang += `<option value="${item.kode}">${item.kode} - ${item.nama} (Sisa: ${item.stok} ${item.satuan})</option>`;
-      });
-      document.getElementById('dataBarangPublicBody').innerHTML = tbodyPub || `<tr><td colspan="5" class="text-center text-muted py-5"><i class="fa-solid fa-box-open fa-2x mb-3"></i><br>Belum ada data barang.</td></tr>`;
-      document.getElementById('dataBarangAdminBody').innerHTML = tbodyAdm;
-
-      // Supplier
-      let tbodySupp = '', optSupp = '<option value="">-- Ketik Vendor --</option>';
-      db.supplier.forEach(sup => {
-        optSupp += `<option value="${sup.nama}">${sup.nama} [${sup.spesifikasi}]</option>`;
-        tbodySupp += `<tr><td class="fw-semibold">${sup.kode}</td><td><b>${sup.nama}</b><br><span class="badge bg-light text-primary mt-1 border"><i class="fa-solid fa-tag me-1"></i>${sup.spesifikasi}</span></td><td>${sup.telp}</td><td>${sup.alamat}</td><td class="text-center"><button class="btn btn-sm btn-light text-warning me-1" data-kode="${sup.kode}" onclick="bukaModalSupplier('edit', this.getAttribute('data-kode'))"><i class="fa-solid fa-pen"></i></button><button class="btn btn-sm btn-light text-danger" data-kode="${sup.kode}" onclick="konfirmasiHapus('Supplier', this.getAttribute('data-kode'))"><i class="fa-solid fa-trash"></i></button></td></tr>`;
-      });
-      document.getElementById('dataSupplierBody').innerHTML = tbodySupp;
-
-      // Departemen
-      let tbodyDept = '', optDept = '<option value="">-- Pilih Dept --</option>', optDeptMaster = '<option value="Umum">Umum</option>';
-      let optFilterDept = '<option value="">Semua Dept</option><option value="Umum">Umum</option>';
-      db.departemen.forEach(dept => {
-        optDept += `<option value="${dept.nama}">${dept.nama}</option>`; optDeptMaster += `<option value="${dept.nama}">${dept.nama}</option>`; optFilterDept += `<option value="${dept.nama}">${dept.nama}</option>`;
-        tbodyDept += `<tr><td class="fw-semibold">${dept.kode}</td><td class="fw-bold">${dept.nama}</td><td class="text-center"><button class="btn btn-sm btn-light text-info me-1" data-kode="${dept.kode}" onclick="bukaModalDepartemen('edit', this.getAttribute('data-kode'))"><i class="fa-solid fa-pen"></i></button><button class="btn btn-sm btn-light text-danger" data-kode="${dept.kode}" onclick="konfirmasiHapus('Departemen', this.getAttribute('data-kode'))"><i class="fa-solid fa-trash"></i></button></td></tr>`;
-      });
-      document.getElementById('dataDepartemenBody').innerHTML = tbodyDept;
-      document.getElementById('k_dept').innerHTML = optDept; document.getElementById('b_dept').innerHTML = optDeptMaster;
-      document.getElementById('filterPubDept').innerHTML = optFilterDept; document.getElementById('filterMasterDept').innerHTML = optFilterDept;
-
-      // Histori
-      let tbKeluar = ''; db.keluar.forEach(k => { const itm = db.stok.find(x => x.kode === k.kode); tbKeluar += `<tr><td>${k.tgl}</td><td><span class="badge bg-light text-dark border">${k.id}</span></td><td><b>${itm ? itm.nama : '-'}</b><br><small class="text-muted">${k.kode}</small></td><td class="text-danger fw-bold">-${k.jumlah}</td><td><span class="badge-dept">${k.dept}</span></td><td>${k.ket}</td></tr>`; });
-      document.getElementById('dataHistoriKeluarBody').innerHTML = tbKeluar;
-      let tbMasuk = ''; db.masuk.forEach(m => { const itm = db.stok.find(x => x.kode === m.kode); tbMasuk += `<tr><td>${m.tgl}</td><td><span class="badge bg-light text-dark border">${m.id}</span></td><td><b>${itm ? itm.nama : '-'}</b><br><small class="text-muted">${m.kode}</small></td><td class="text-success fw-bold">+${m.jumlah}</td><td>${m.supplier}</td><td>${m.ket}</td></tr>`; });
-      document.getElementById('dataHistoriMasukBody').innerHTML = tbMasuk;
-
-      // Inisialisasi DataTables
-      const dtConf = { pageLength: 10, stateSave: true, language: { search: "Cari:", lengthMenu: "_MENU_ data", info: "_START_ - _END_ dari _TOTAL_", infoEmpty: "0 data", paginate: { previous: "Prev", next: "Next" } } };
-      tableIds.forEach(id => { $(id).DataTable(dtConf); });
-
-      $('#filterPubDept').off('change').on('change', function() { $('#tablePublicBarang').DataTable().column(2).search(this.value).draw(); });
-      $('#filterPubStatus').off('change').on('change', function() { $('#tablePublicBarang').DataTable().column(4).search(this.value).draw(); });
-      $('#filterMasterDept').off('change').on('change', function() { $('#tableMasterBarang').DataTable().column(4).search(this.value).draw(); });
-
-      // Inisialisasi TomSelect
-      if (tsBarangKeluar) tsBarangKeluar.destroy(); if (tsBarangMasuk) tsBarangMasuk.destroy(); if (tsSupplier) tsSupplier.destroy();
-      document.getElementById('k_kode').innerHTML = optBarang; document.getElementById('m_kode_masuk').innerHTML = optBarang; document.getElementById('m_supplier').innerHTML = optSupp;
-      const tsConf = { create: false, maxOptions: 500 };
-      tsBarangKeluar = new TomSelect('#k_kode', tsConf); tsBarangMasuk = new TomSelect('#m_kode_masuk', tsConf); tsSupplier = new TomSelect('#m_supplier', tsConf);
-    }
-
-    async function showLogin() {
-      const { value: password } = await Swal.fire({
-        title: 'Verifikasi Admin', input: 'password', inputPlaceholder: 'Masukkan sandi...',
-        showCancelButton: true, confirmButtonText: 'Masuk', confirmButtonColor: '#3b82f6',
-      });
-      
-      if (password) {
-        Swal.fire({ title: 'Memeriksa...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-        const res = await fetchAPI('login', { password: password });
-        
-        if (res.status === 'success') {
-          document.getElementById('publicArea').classList.add('hidden');
-          document.getElementById('adminAreaContent').classList.remove('hidden');
-          document.getElementById('adminSidebar').classList.remove('hidden');
-          Swal.close();
-        } else {
-          Swal.fire('Akses Ditolak', res.message, 'error');
-        }
-      }
-    }
-
-    function logoutAdmin() {
-      document.getElementById('adminAreaContent').classList.add('hidden');
-      document.getElementById('adminSidebar').classList.add('hidden');
-      document.getElementById('publicArea').classList.remove('hidden');
-    }
-
-    async function handleTransaksi(e, tipe) {
-      e.preventDefault();
-      const isKeluar = tipe === 'keluar';
-      const btn = document.getElementById(isKeluar ? 'btnSimpanKeluar' : 'btnSimpanMasuk');
-      btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Loading...';
-
-      const dataForm = isKeluar ? { kodeBarang: $('#k_kode').val(), jumlah: $('#k_jumlah').val(), departemen: $('#k_dept').val(), keterangan: $('#k_ket').val() } 
-                                : { kodeBarang: $('#m_kode_masuk').val(), jumlah: $('#m_jumlah_masuk').val(), supplier: $('#m_supplier').val(), keterangan: $('#m_ket_masuk').val() };
-
-      const res = await fetchAPI(isKeluar ? 'simpanBarangKeluar' : 'simpanBarangMasuk', dataForm);
-      if (res.status === 'success') {
-        e.target.reset();
-        if (isKeluar && tsBarangKeluar) tsBarangKeluar.clear();
-        if (!isKeluar && tsBarangMasuk) { tsBarangMasuk.clear(); tsSupplier.clear(); }
-        
-        // Tahan layar dengan animasi loading saat menarik data baru
-        Swal.fire({ title: 'Sinkronisasi Data...', text: 'Mengambil data terbaru dari server', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-        await memuatData(); // Tunggu sampai selesai sepenuhnya
-        Swal.fire({ icon: 'success', title: 'Berhasil', text: res.message, timer: 1500, showConfirmButton: false });
-      } else {
-        Swal.fire({ icon: 'error', title: 'Gagal', text: res.message });
-      }
-      btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check me-2"></i>Proses Selesai';
-    }
-
-    // FUNGSI MODAL
-    function bukaModalBarang(mode, kode = '') {
-      document.getElementById('formBarang').reset(); const inputKode = document.getElementById('b_kode');
-      $('#b_stok').val(0); $('#b_min').val(0); $('#b_dept').val('Umum');
-      if (mode === 'tambah') {
-        $('#barangMode').val('tambah'); $('#titleBarang').text('Tambah Barang'); inputKode.readOnly = false; modalBarangUI.show();
-      } else {
-        const item = db.stok.find(x => x.kode === kode); if (!item) return;
-        $('#barangMode').val('edit'); $('#titleBarang').text('Edit Barang'); inputKode.value = item.kode; inputKode.readOnly = true;
-        $('#b_nama').val(item.nama); $('#b_merek').val(item.merek); $('#b_satuan').val(item.satuan); $('#b_stok').val(item.stok); $('#b_min').val(item.minStok); $('#b_dept').val(item.peruntukan || 'Umum');
-        modalBarangUI.show();
-      }
-    }
-
-    function bukaModalSupplier(mode, kode = '') {
-      document.getElementById('formSupplier').reset(); const inputKode = document.getElementById('s_kode');
-      if (mode === 'tambah') { $('#supplierMode').val('tambah'); $('#titleSupplier').text('Tambah Supplier'); inputKode.readOnly = false; modalSupplierUI.show(); }
-      else {
-        const it = db.supplier.find(x => x.kode === kode); if (!it) return;
-        $('#supplierMode').val('edit'); $('#titleSupplier').text('Edit Supplier'); inputKode.value = it.kode; inputKode.readOnly = true;
-        $('#s_nama').val(it.nama); $('#s_spek').val(it.spesifikasi); $('#s_telp').val(it.telp); $('#s_alamat').val(it.alamat); $('#s_ket').val(it.keterangan); modalSupplierUI.show();
-      }
-    }
-
-    function bukaModalDepartemen(mode, kode = '') {
-      document.getElementById('formDepartemen').reset(); const inputKode = document.getElementById('d_kode');
-      if (mode === 'tambah') { $('#departemenMode').val('tambah'); $('#titleDepartemen').text('Tambah Departemen'); inputKode.readOnly = false; modalDepartemenUI.show(); }
-      else {
-        const it = db.departemen.find(x => x.kode === kode); if (!it) return;
-        $('#departemenMode').val('edit'); $('#titleDepartemen').text('Edit Departemen'); inputKode.value = it.kode; inputKode.readOnly = true; $('#d_nama').val(it.nama); modalDepartemenUI.show();
-      }
-    }
-
-    async function simpanData(e, tipe) {
-      e.preventDefault();
-      const btnId = tipe === 'barang' ? 'btnSaveBarang' : (tipe === 'supplier' ? 'btnSaveSupplier' : 'btnSaveDepartemen');
-      const btn = document.getElementById(btnId); btn.disabled = true; btn.innerHTML = 'Menyimpan...';
-
-      let dt = {};
-      if (tipe === 'barang') dt = { mode: $('#barangMode').val(), kode: $('#b_kode').val(), nama: $('#b_nama').val(), merek: $('#b_merek').val(), satuan: $('#b_satuan').val(), stok: $('#b_stok').val(), minStok: $('#b_min').val(), peruntukan: $('#b_dept').val() };
-      else if (tipe === 'supplier') dt = { mode: $('#supplierMode').val(), kode: $('#s_kode').val(), nama: $('#s_nama').val(), spesifikasi: $('#s_spek').val(), telp: $('#s_telp').val(), alamat: $('#s_alamat').val(), keterangan: $('#s_ket').val() };
-      else if (tipe === 'departemen') dt = { mode: $('#departemenMode').val(), kode: $('#d_kode').val(), nama: $('#d_nama').val() };
-
-      const actionPath = tipe === 'barang' ? 'simpanMasterBarang' : (tipe === 'supplier' ? 'simpanSupplier' : 'simpanDepartemen');
-      const res = await fetchAPI(actionPath, dt);
-      
-      if (res.status === 'success') {
-        if (tipe === 'barang') modalBarangUI.hide(); else if (tipe === 'supplier') modalSupplierUI.hide(); else modalDepartemenUI.hide();
-        
-        // Tahan layar dengan animasi loading saat menarik data baru
-        Swal.fire({ title: 'Memperbarui Tabel...', text: 'Mohon tunggu sebentar', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-        await memuatData(); // Tunggu sampai selesai sepenuhnya
-        Swal.fire({ icon: 'success', title: 'Berhasil', text: res.message, timer: 1500, showConfirmButton: false });
-      } else Swal.fire('Error', res.message, 'error');
-      btn.disabled = false; btn.innerHTML = 'Simpan';
-    }
-
-   async function konfirmasiHapus(sheetName, kode) {
-      const resConf = await Swal.fire({ title: 'Hapus Data?', text: `Menghapus "${kode}" permanen.`, icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Hapus!' });
-      if (!resConf.isConfirmed) return;
-      
-      Swal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-      const res = await fetchAPI('hapusData', { sheetName, kode });
-      if (res.status === 'success') { 
-        // Tahan layar dengan animasi loading saat menarik data baru
-        Swal.fire({ title: 'Memperbarui Tabel...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-        await memuatData(); // Tunggu sampai selesai sepenuhnya
-        Swal.fire({ icon: 'success', title: 'Terhapus!', timer: 1500, showConfirmButton: false }); 
-      }
-      else Swal.fire('Gagal', res.message, 'error');
-    }
-  </script>
+  <!-- MVC SCRIPTS -->
+  <script src="js/model.js"></script>
+  <script src="js/view.js"></script>
+  <script src="js/controller.js"></script>
 </body>
 </html>
