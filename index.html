@@ -15,28 +15,56 @@
   <style>
     :root { --bg-color: #f3f4f6; --sidebar-bg: #1e1e2d; --sidebar-hover: #2b2b40; --primary: #3b82f6; --text-main: #3f4254; --border-light: #e4e6ef; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; }
-    .wrapper { display: flex; min-height: 100vh; }
-    .sidebar { width: 260px; background-color: var(--sidebar-bg); color: #9899ac; flex-shrink: 0; padding-top: 15px; }
-    .main-content { flex-grow: 1; padding: 30px; background-color: var(--bg-color); min-width: 0; }
-    .sidebar-brand { display: flex; align-items: center; padding: 10px 25px 25px 25px; color: #fff; font-weight: 700; font-size: 1.2rem; }
+    
+    .wrapper { display: flex; min-height: 100vh; position: relative; }
+    
+    /* Sidebar Desktop Default */
+    .sidebar { width: 260px; background-color: var(--sidebar-bg); color: #9899ac; flex-shrink: 0; padding-top: 15px; transition: all 0.3s ease; z-index: 1050; }
+    .main-content { flex-grow: 1; padding: 20px; background-color: var(--bg-color); min-width: 0; width: 100%; }
+    
+    .sidebar-brand { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px 25px 20px; color: #fff; font-weight: 700; font-size: 1.2rem; }
     .sidebar-brand img { height: 35px; margin-right: 12px; background: white; padding: 4px; border-radius: 6px; }
-    .nav-pills .nav-link { color: #9899ac; font-weight: 500; padding: 12px 25px; border-radius: 0; margin-bottom: 2px; display: flex; align-items: center; cursor: pointer; transition: 0.2s; }
+    
+    .nav-pills .nav-link { color: #9899ac; font-weight: 500; padding: 12px 20px; border-radius: 0; margin-bottom: 2px; display: flex; align-items: center; cursor: pointer; transition: 0.2s; }
     .nav-pills .nav-link i { margin-right: 12px; width: 20px; text-align: center; font-size: 1.1rem; }
     .nav-pills .nav-link:hover { color: #fff; background-color: var(--sidebar-hover); }
     .nav-pills .nav-link.active { color: #fff; background-color: var(--primary); font-weight: 600; border-right: 4px solid #fff; }
-    .sidebar-heading { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #565674; margin: 20px 25px 10px 25px; font-weight: 700; }
-    .card { border: none; border-radius: 12px; box-shadow: 0 0 20px 0 rgba(76, 87, 125, 0.05); background: #fff; margin-bottom: 30px; }
-    .card-header { background: transparent; border-bottom: 1px dashed var(--border-light); padding: 20px 25px; font-weight: 700; color: #181c32; font-size: 1.1rem; }
-    .table th { text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; color: #b5b5c3; font-weight: 600; border-bottom: 1px dashed var(--border-light); }
-    .table td { vertical-align: middle; color: #3f4254; font-weight: 500; font-size: 0.9rem; border-bottom: 1px dashed var(--border-light); }
-    .badge-soft-success { background-color: #e8fff3; color: #0dbb72; padding: 6px 12px; border-radius: 6px; font-weight: 600; }
-    .badge-soft-danger { background-color: #fff5f8; color: #f1416c; padding: 6px 12px; border-radius: 6px; font-weight: 600; }
-    .badge-dept { background-color: #f1f1f2; color: #7e8299; padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
+    .sidebar-heading { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #565674; margin: 20px 20px 10px 20px; font-weight: 700; }
+    
+    .card { border: none; border-radius: 12px; box-shadow: 0 0 20px 0 rgba(76, 87, 125, 0.05); background: #fff; margin-bottom: 20px; }
+    .card-header { background: transparent; border-bottom: 1px dashed var(--border-light); padding: 15px 20px; font-weight: 700; color: #181c32; font-size: 1rem; }
+    
+    .table th { text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px; color: #b5b5c3; font-weight: 600; border-bottom: 1px dashed var(--border-light); white-space: nowrap; }
+    .table td { vertical-align: middle; color: #3f4254; font-weight: 500; font-size: 0.85rem; border-bottom: 1px dashed var(--border-light); }
+    
+    .badge-soft-success { background-color: #e8fff3; color: #0dbb72; padding: 5px 10px; border-radius: 6px; font-weight: 600; }
+    .badge-soft-danger { background-color: #fff5f8; color: #f1416c; padding: 5px 10px; border-radius: 6px; font-weight: 600; }
+    .badge-dept { background-color: #f1f1f2; color: #7e8299; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+    
     .hidden { display: none !important; }
-    .btn-primary { background-color: var(--primary); border: none; font-weight: 600; padding: 10px 20px; border-radius: 8px; }
-    .btn-login-header { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 8px; font-size: 0.85rem; width: 80%; margin: 20px auto; display: block; text-align: center; cursor: pointer; }
+    .btn-primary { background-color: var(--primary); border: none; font-weight: 600; padding: 8px 16px; border-radius: 8px; }
+    .btn-login-header { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 8px; font-size: 0.85rem; width: 85%; margin: 20px auto; display: block; text-align: center; cursor: pointer; }
     .btn-login-header:hover { background: #f1416c; border-color: #f1416c; }
-    .public-topbar { background: #fff; padding: 15px 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 30px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
+    
+    .public-topbar { background: #fff; padding: 15px 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    
+    /* Tombol Hamburger Mobile */
+    .mobile-header-bar { display: none; background: #fff; padding: 12px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); align-items: center; justify-content: space-between; margin-bottom: 20px; border-radius: 10px; }
+
+    /* Responsif untuk Tablet & HP (Layar < 992px) */
+    @media (max-width: 991.98px) {
+      .wrapper { flex-direction: column; }
+      .sidebar { 
+        position: fixed; 
+        top: 0; 
+        left: -260px; 
+        height: 100vh; 
+        box-shadow: 5px 0 15px rgba(0,0,0,0.2); 
+      }
+      .sidebar.mobile-show { left: 0; }
+      .mobile-header-bar { display: flex; }
+      .main-content { padding: 10px; }
+    }
   </style>
 </head>
 
@@ -45,21 +73,24 @@
     
     <!-- SIDEBAR ADMIN -->
     <div class="sidebar hidden" id="adminSidebar">
-      <div class="sidebar-brand"><i class="fa-solid fa-industry fs-3 me-2"></i> VIT Logistics</div>
+      <div class="sidebar-brand">
+        <span><i class="fa-solid fa-industry me-2"></i> VIT Logistics</span>
+        <button class="btn btn-sm text-white d-lg-none" onclick="toggleSidebar()"><i class="fa-solid fa-xmark fs-5"></i></button>
+      </div>
       
       <div class="sidebar-heading">Transaksi</div>
       <div class="nav flex-column nav-pills" role="tablist">
-        <a class="nav-link active" data-bs-toggle="pill" data-bs-target="#keluar" role="tab"><i class="fa-solid fa-arrow-right-from-bracket text-danger"></i> Input Keluar</a>
-        <a class="nav-link" data-bs-toggle="pill" data-bs-target="#masuk" role="tab"><i class="fa-solid fa-arrow-right-to-bracket text-success"></i> Input Masuk</a>
+        <a class="nav-link active" data-bs-toggle="pill" data-bs-target="#keluar" role="tab" onclick="toggleSidebar()"><i class="fa-solid fa-arrow-right-from-bracket text-danger"></i> Input Keluar</a>
+        <a class="nav-link" data-bs-toggle="pill" data-bs-target="#masuk" role="tab" onclick="toggleSidebar()"><i class="fa-solid fa-arrow-right-to-bracket text-success"></i> Input Masuk</a>
         
         <div class="sidebar-heading mt-3">Monitoring</div>
-        <a class="nav-link" data-bs-toggle="pill" data-bs-target="#master" role="tab"><i class="fa-solid fa-cubes text-primary"></i> Master Barang</a>
-        <a class="nav-link" data-bs-toggle="pill" data-bs-target="#historiKeluar" role="tab"><i class="fa-solid fa-clock-rotate-left"></i> Histori Keluar</a>
-        <a class="nav-link" data-bs-toggle="pill" data-bs-target="#historiMasuk" role="tab"><i class="fa-solid fa-clock-rotate-left"></i> Histori Masuk</a>
+        <a class="nav-link" data-bs-toggle="pill" data-bs-target="#master" role="tab" onclick="toggleSidebar()"><i class="fa-solid fa-cubes text-primary"></i> Master Barang</a>
+        <a class="nav-link" data-bs-toggle="pill" data-bs-target="#historiKeluar" role="tab" onclick="toggleSidebar()"><i class="fa-solid fa-clock-rotate-left"></i> Histori Keluar</a>
+        <a class="nav-link" data-bs-toggle="pill" data-bs-target="#historiMasuk" role="tab" onclick="toggleSidebar()"><i class="fa-solid fa-clock-rotate-left"></i> Histori Masuk</a>
         
         <div class="sidebar-heading mt-3">Relasi & Data</div>
-        <a class="nav-link" data-bs-toggle="pill" data-bs-target="#supplier" role="tab"><i class="fa-solid fa-truck-fast text-warning"></i> Kelola Supplier</a>
-        <a class="nav-link" data-bs-toggle="pill" data-bs-target="#departemen" role="tab"><i class="fa-solid fa-network-wired text-info"></i> Departemen</a>
+        <a class="nav-link" data-bs-toggle="pill" data-bs-target="#supplier" role="tab" onclick="toggleSidebar()"><i class="fa-solid fa-truck-fast text-warning"></i> Kelola Supplier</a>
+        <a class="nav-link" data-bs-toggle="pill" data-bs-target="#departemen" role="tab" onclick="toggleSidebar()"><i class="fa-solid fa-network-wired text-info"></i> Departemen</a>
       </div>
 
       <button class="btn-login-header" id="btnLogout"><i class="fa-solid fa-power-off me-2"></i>Keluar Sistem</button>
@@ -68,28 +99,37 @@
     <!-- KONTEN UTAMA -->
     <div class="main-content">
       
+      <!-- HEADER MOBILE (Tombol Menu HP) -->
+      <div class="mobile-header-bar hidden" id="mobileHeaderBar">
+        <div class="d-flex align-items-center">
+          <button class="btn btn-dark btn-sm me-3" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+          <span class="fw-bold text-dark">Menu Admin</span>
+        </div>
+        <button class="btn btn-outline-danger btn-sm" onclick="LogistikView.alihkanKePublik()"><i class="fa-solid fa-power-off"></i> Keluar</button>
+      </div>
+
       <!-- AREA PUBLIK -->
       <div id="publicArea">
         <div class="public-topbar">
           <div class="d-flex align-items-center">
             <i class="fa-solid fa-industry text-primary fs-2 me-3"></i>
             <div>
-              <h4 class="mb-0 fw-bold">Portal Logistik VIT</h4>
+              <h5 class="mb-0 fw-bold">Portal Logistik VIT</h5>
               <small class="text-muted">Cek Ketersediaan Stok Real-Time</small>
             </div>
           </div>
-          <button class="btn btn-dark" id="btnLoginTrigger"><i class="fa-solid fa-lock me-2"></i> Akses Admin</button>
+          <button class="btn btn-dark btn-sm" id="btnLoginTrigger"><i class="fa-solid fa-lock me-2"></i> Akses Admin</button>
         </div>
 
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span><i class="fa-solid fa-warehouse me-2 text-primary"></i> Inventori Publik</span>
-            <div class="d-flex gap-2">
-              <select id="filterPubDept" class="form-select form-select-sm" style="min-width: 150px;"><option value="">Semua Dept</option></select>
-              <select id="filterPubStatus" class="form-select form-select-sm" style="min-width: 120px;"><option value="">Semua Status</option><option value="Aman">Aman</option><option value="Kritis">Kritis</option></select>
+            <div class="d-flex gap-2 w-100 w-md-auto">
+              <select id="filterPubDept" class="form-select form-select-sm"><option value="">Semua Dept</option></select>
+              <select id="filterPubStatus" class="form-select form-select-sm"><option value="">Status</option><option value="Aman">Aman</option><option value="Kritis">Kritis</option></select>
             </div>
           </div>
-          <div class="card-body">
+          <div class="card-body p-2 p-md-3">
             <div class="table-responsive">
               <table id="tablePublicBarang" class="table align-middle w-100">
                 <thead><tr><th>Kode</th><th>Nama Barang</th><th>Peruntukan</th><th>Sisa Stok</th><th>Status</th></tr></thead>
@@ -102,9 +142,9 @@
 
       <!-- AREA ADMIN CONTENT -->
       <div id="adminAreaContent" class="hidden tab-content">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="fw-bold mb-0">Dashboard Administrator</h3>
-          <span class="badge bg-light text-dark border"><i class="fa-solid fa-circle text-success me-1" style="font-size: 8px;"></i> Terhubung</span>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="fw-bold mb-0 fs-5">Dashboard Administrator</h4>
+          <span class="badge bg-light text-dark border"><i class="fa-solid fa-circle text-success me-1" style="font-size: 8px;"></i> Online</span>
         </div>
 
         <!-- TAB: KELUAR -->
@@ -113,12 +153,12 @@
           <div class="card-body">
             <form id="formBarangKeluar">
               <div class="row">
-                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Pilih Barang</label><select id="k_kode" required autocomplete="off"></select></div>
-                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Jumlah Diambil</label><input type="number" class="form-control" id="k_jumlah" min="1" required></div>
-                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Departemen</label><select class="form-select" id="k_dept" required></select></div>
-                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Nama Pengambil</label><input type="text" class="form-control" id="k_ket" required></div>
+                <div class="col-12 col-md-6 mb-3"><label class="form-label small fw-bold">Pilih Barang</label><select id="k_kode" required autocomplete="off"></select></div>
+                <div class="col-12 col-md-6 mb-3"><label class="form-label small fw-bold">Jumlah Diambil</label><input type="number" class="form-control" id="k_jumlah" min="1" required></div>
+                <div class="col-12 col-md-6 mb-3"><label class="form-label small fw-bold">Departemen</label><select class="form-select" id="k_dept" required></select></div>
+                <div class="col-12 col-md-6 mb-3"><label class="form-label small fw-bold">Nama Pengambil</label><input type="text" class="form-control" id="k_ket" required></div>
               </div>
-              <button type="submit" class="btn btn-danger px-4 py-2 mt-2"><i class="fa-solid fa-check me-2"></i> Proses Pemakaian</button>
+              <button type="submit" class="btn btn-danger px-4 py-2 mt-2 w-100 w-md-auto"><i class="fa-solid fa-check me-2"></i> Proses Pemakaian</button>
             </form>
           </div></div>
         </div>
@@ -129,48 +169,48 @@
           <div class="card-body">
             <form id="formBarangMasuk">
               <div class="row">
-                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Pilih Barang</label><select id="m_kode_masuk" required autocomplete="off"></select></div>
-                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Jumlah Diterima</label><input type="number" class="form-control" id="m_jumlah_masuk" min="1" required></div>
-                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">Supplier (Pemasok)</label><select id="m_supplier" required autocomplete="off"></select></div>
-                <div class="col-md-6 mb-3"><label class="form-label small fw-bold">No. Surat Jalan / Ket</label><input type="text" class="form-control" id="m_ket_masuk" required></div>
+                <div class="col-12 col-md-6 mb-3"><label class="form-label small fw-bold">Pilih Barang</label><select id="m_kode_masuk" required autocomplete="off"></select></div>
+                <div class="col-12 col-md-6 mb-3"><label class="form-label small fw-bold">Jumlah Diterima</label><input type="number" class="form-control" id="m_jumlah_masuk" min="1" required></div>
+                <div class="col-12 col-md-6 mb-3"><label class="form-label small fw-bold">Supplier (Pemasok)</label><select id="m_supplier" required autocomplete="off"></select></div>
+                <div class="col-12 col-md-6 mb-3"><label class="form-label small fw-bold">No. Surat Jalan / Ket</label><input type="text" class="form-control" id="m_ket_masuk" required></div>
               </div>
-              <button type="submit" class="btn btn-success px-4 py-2 mt-2"><i class="fa-solid fa-check me-2"></i> Proses Penerimaan</button>
+              <button type="submit" class="btn btn-success px-4 py-2 mt-2 w-100 w-md-auto"><i class="fa-solid fa-check me-2"></i> Proses Penerimaan</button>
             </form>
           </div></div>
         </div>
 
         <!-- TAB: MASTER BARANG -->
         <div class="tab-pane fade" id="master">
-          <div class="card"><div class="card-header d-flex justify-content-between align-items-center">
+          <div class="card"><div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span><i class="fa-solid fa-database text-primary me-2"></i> Master Barang</span>
-            <div class="d-flex gap-2">
-              <select id="filterMasterDept" class="form-select form-select-sm" style="min-width: 150px;"><option value="">Semua Dept</option></select>
+            <div class="d-flex gap-2 w-100 w-md-auto">
+              <select id="filterMasterDept" class="form-select form-select-sm"><option value="">Semua Dept</option></select>
               <button class="btn btn-primary btn-sm px-3" onclick="LogistikController.bukaModalBarang('tambah')"><i class="fa-solid fa-plus me-1"></i> Baru</button>
             </div>
           </div>
-          <div class="card-body"><div class="table-responsive"><table id="tableMasterBarang" class="table align-middle w-100"><thead><tr><th>Kode</th><th>Item</th><th>Stok</th><th>Min</th><th>Dept</th><th class="text-center">Aksi</th></tr></thead><tbody id="dataBarangAdminBody"></tbody></table></div></div></div>
+          <div class="card-body p-2 p-md-3"><div class="table-responsive"><table id="tableMasterBarang" class="table align-middle w-100"><thead><tr><th>Kode</th><th>Item</th><th>Stok</th><th>Min</th><th>Dept</th><th class="text-center">Aksi</th></tr></thead><tbody id="dataBarangAdminBody"></tbody></table></div></div></div>
         </div>
 
         <!-- TAB: HISTORI KELUAR -->
-        <div class="tab-pane fade" id="historiKeluar"><div class="card"><div class="card-header"><i class="fa-solid fa-list-check text-danger me-2"></i> Riwayat Barang Keluar</div><div class="card-body"><div class="table-responsive"><table id="tableHistoriKeluar" class="table align-middle w-100"><thead><tr><th>Waktu</th><th>ID Transaksi</th><th>Nama Barang</th><th>Jumlah</th><th>Dept / Peminta</th><th>Nama Pengambil</th></tr></thead><tbody id="dataHistoriKeluarBody"></tbody></table></div></div></div></div>
+        <div class="tab-pane fade" id="historiKeluar"><div class="card"><div class="card-header"><i class="fa-solid fa-list-check text-danger me-2"></i> Riwayat Barang Keluar</div><div class="card-body p-2 p-md-3"><div class="table-responsive"><table id="tableHistoriKeluar" class="table align-middle w-100"><thead><tr><th>Waktu</th><th>ID Transaksi</th><th>Nama Barang</th><th>Jumlah</th><th>Dept / Peminta</th><th>Nama Pengambil</th></tr></thead><tbody id="dataHistoriKeluarBody"></tbody></table></div></div></div></div>
 
         <!-- TAB: HISTORI MASUK -->
-        <div class="tab-pane fade" id="historiMasuk"><div class="card"><div class="card-header"><i class="fa-solid fa-list-check text-success me-2"></i> Riwayat Barang Masuk</div><div class="card-body"><div class="table-responsive"><table id="tableHistoriMasuk" class="table align-middle w-100"><thead><tr><th>Waktu</th><th>ID Transaksi</th><th>Nama Barang</th><th>Jumlah</th><th>Supplier</th><th>Keterangan</th></tr></thead><tbody id="dataHistoriMasukBody"></tbody></table></div></div></div></div>
+        <div class="tab-pane fade" id="historiMasuk"><div class="card"><div class="card-header"><i class="fa-solid fa-list-check text-success me-2"></i> Riwayat Barang Masuk</div><div class="card-body p-2 p-md-3"><div class="table-responsive"><table id="tableHistoriMasuk" class="table align-middle w-100"><thead><tr><th>Waktu</th><th>ID Transaksi</th><th>Nama Barang</th><th>Jumlah</th><th>Supplier</th><th>Keterangan</th></tr></thead><tbody id="dataHistoriMasukBody"></tbody></table></div></div></div></div>
 
         <!-- TAB: SUPPLIER -->
-        <div class="tab-pane fade" id="supplier"><div class="card"><div class="card-header d-flex justify-content-between align-items-center"><span><i class="fa-solid fa-users text-warning me-2"></i> Master Supplier</span><button class="btn btn-warning btn-sm text-dark px-3 fw-bold" onclick="LogistikController.bukaModalSupplier('tambah')"><i class="fa-solid fa-plus me-1"></i> Baru</button></div><div class="card-body"><div class="table-responsive"><table id="tableSupplier" class="table align-middle w-100"><thead><tr><th>Kode</th><th>Vendor</th><th>Kontak</th><th>Keterangan</th><th class="text-center">Aksi</th></tr></thead><tbody id="dataSupplierBody"></tbody></table></div></div></div></div>
+        <div class="tab-pane fade" id="supplier"><div class="card"><div class="card-header d-flex justify-content-between align-items-center"><span><i class="fa-solid fa-users text-warning me-2"></i> Master Supplier</span><button class="btn btn-warning btn-sm text-dark px-3 fw-bold" onclick="LogistikController.bukaModalSupplier('tambah')"><i class="fa-solid fa-plus me-1"></i> Baru</button></div><div class="card-body p-2 p-md-3"><div class="table-responsive"><table id="tableSupplier" class="table align-middle w-100"><thead><tr><th>Kode</th><th>Vendor</th><th>Kontak</th><th>Keterangan</th><th class="text-center">Aksi</th></tr></thead><tbody id="dataSupplierBody"></tbody></table></div></div></div></div>
         
         <!-- TAB: DEPARTEMEN -->
-        <div class="tab-pane fade" id="departemen"><div class="card"><div class="card-header d-flex justify-content-between align-items-center"><span><i class="fa-solid fa-network-wired text-info me-2"></i> Master Departemen</span><button class="btn btn-info btn-sm text-white px-3 fw-bold" onclick="LogistikController.bukaModalDepartemen('tambah')"><i class="fa-solid fa-plus me-1"></i> Baru</button></div><div class="card-body"><div class="table-responsive"><table id="tableDepartemen" class="table align-middle w-100"><thead><tr><th>Kode</th><th>Nama Departemen</th><th class="text-center">Aksi</th></tr></thead><tbody id="dataDepartemenBody"></tbody></table></div></div></div></div>
+        <div class="tab-pane fade" id="departemen"><div class="card"><div class="card-header d-flex justify-content-between align-items-center"><span><i class="fa-solid fa-network-wired text-info me-2"></i> Master Departemen</span><button class="btn btn-info btn-sm text-white px-3 fw-bold" onclick="LogistikController.bukaModalDepartemen('tambah')"><i class="fa-solid fa-plus me-1"></i> Baru</button></div><div class="card-body p-2 p-md-3"><div class="table-responsive"><table id="tableDepartemen" class="table align-middle w-100"><thead><tr><th>Kode</th><th>Nama Departemen</th><th class="text-center">Aksi</th></tr></thead><tbody id="dataDepartemenBody"></tbody></table></div></div></div></div>
 
       </div>
     </div>
   </div>
 
   <!-- MODALS -->
-  <div class="modal fade" id="modalBarang" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-light"><h5 class="modal-title fw-bold" id="titleBarang">Barang</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="formBarang"><div class="modal-body"><input type="hidden" id="barangMode"><div class="mb-3"><label class="form-label small fw-semibold">Kode Barang</label><input type="text" class="form-control" id="b_kode" required></div><div class="mb-3"><label class="form-label small fw-semibold">Nama Barang</label><input type="text" class="form-control" id="b_nama" required></div><div class="row"><div class="col-6 mb-3"><label class="form-label small fw-semibold">Merek</label><input type="text" class="form-control" id="b_merek"></div><div class="col-6 mb-3"><label class="form-label small fw-semibold">Satuan</label><input type="text" class="form-control" id="b_satuan" required></div><div class="col-6 mb-3"><label class="form-label small fw-semibold">Stok Saat Ini</label><input type="number" class="form-control" id="b_stok" min="0" value="0" required></div><div class="col-6 mb-3"><label class="form-label small fw-semibold">Min Stok</label><input type="number" class="form-control" id="b_min" min="0" value="0" required></div></div><div class="mb-2"><label class="form-label small fw-semibold">Departemen</label><select class="form-select" id="b_dept" required></select></div></div><div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary" id="btnSaveBarang">Simpan</button></div></form></div></div></div>
-  <div class="modal fade" id="modalSupplier" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-light"><h5 class="modal-title fw-bold" id="titleSupplier">Supplier</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="formSupplier"><div class="modal-body"><input type="hidden" id="supplierMode"><div class="mb-3"><label class="form-label small fw-semibold">Kode Supplier</label><input type="text" class="form-control" id="s_kode" required></div><div class="mb-3"><label class="form-label small fw-semibold">Nama Perusahaan</label><input type="text" class="form-control" id="s_nama" required></div><div class="mb-3"><label class="form-label small fw-semibold">Spesifikasi Vendor</label><input type="text" class="form-control" id="s_spek" required></div><div class="mb-3"><label class="form-label small fw-semibold">No Telepon / WA</label><input type="text" class="form-control" id="s_telp"></div><div class="mb-3"><label class="form-label small fw-semibold">Alamat Lengkap</label><textarea class="form-control" id="s_alamat" rows="2"></textarea></div><div class="mb-2"><label class="form-label small fw-semibold">Keterangan</label><input type="text" class="form-control" id="s_ket"></div></div><div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary" id="btnSaveSupplier">Simpan</button></div></form></div></div></div>
-  <div class="modal fade" id="modalDepartemen" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-light"><h5 class="modal-title fw-bold" id="titleDepartemen">Departemen</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="formDepartemen"><div class="modal-body"><input type="hidden" id="departemenMode"><div class="mb-3"><label class="form-label small fw-semibold">Kode Departemen</label><input type="text" class="form-control" id="d_kode" required></div><div class="mb-3"><label class="form-label small fw-semibold">Nama Departemen</label><input type="text" class="form-control" id="d_nama" required></div></div><div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary" id="btnSaveDepartemen">Simpan</button></div></form></div></div></div>
+  <div class="modal fade" id="modalBarang" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header bg-light"><h5 class="modal-title fw-bold" id="titleBarang">Barang</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="formBarang"><div class="modal-body"><input type="hidden" id="barangMode"><div class="mb-3"><label class="form-label small fw-semibold">Kode Barang</label><input type="text" class="form-control" id="b_kode" required></div><div class="mb-3"><label class="form-label small fw-semibold">Nama Barang</label><input type="text" class="form-control" id="b_nama" required></div><div class="row"><div class="col-6 mb-3"><label class="form-label small fw-semibold">Merek</label><input type="text" class="form-control" id="b_merek"></div><div class="col-6 mb-3"><label class="form-label small fw-semibold">Satuan</label><input type="text" class="form-control" id="b_satuan" required></div><div class="col-6 mb-3"><label class="form-label small fw-semibold">Stok Saat Ini</label><input type="number" class="form-control" id="b_stok" min="0" value="0" required></div><div class="col-6 mb-3"><label class="form-label small fw-semibold">Min Stok</label><input type="number" class="form-control" id="b_min" min="0" value="0" required></div></div><div class="mb-2"><label class="form-label small fw-semibold">Departemen</label><select class="form-select" id="b_dept" required></select></div></div><div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary btn-sm" id="btnSaveBarang">Simpan</button></div></form></div></div></div>
+  <div class="modal fade" id="modalSupplier" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header bg-light"><h5 class="modal-title fw-bold" id="titleSupplier">Supplier</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="formSupplier"><div class="modal-body"><input type="hidden" id="supplierMode"><div class="mb-3"><label class="form-label small fw-semibold">Kode Supplier</label><input type="text" class="form-control" id="s_kode" required></div><div class="mb-3"><label class="form-label small fw-semibold">Nama Perusahaan</label><input type="text" class="form-control" id="s_nama" required></div><div class="mb-3"><label class="form-label small fw-semibold">Spesifikasi Vendor</label><input type="text" class="form-control" id="s_spek" required></div><div class="mb-3"><label class="form-label small fw-semibold">No Telepon / WA</label><input type="text" class="form-control" id="s_telp"></div><div class="mb-3"><label class="form-label small fw-semibold">Alamat Lengkap</label><textarea class="form-control" id="s_alamat" rows="2"></textarea></div><div class="mb-2"><label class="form-label small fw-semibold">Keterangan</label><input type="text" class="form-control" id="s_ket"></div></div><div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary btn-sm" id="btnSaveSupplier">Simpan</button></div></form></div></div></div>
+  <div class="modal fade" id="modalDepartemen" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header bg-light"><h5 class="modal-title fw-bold" id="titleDepartemen">Departemen</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="formDepartemen"><div class="modal-body"><input type="hidden" id="departemenMode"><div class="mb-3"><label class="form-label small fw-semibold">Kode Departemen</label><input type="text" class="form-control" id="d_kode" required></div><div class="mb-3"><label class="form-label small fw-semibold">Nama Departemen</label><input type="text" class="form-control" id="d_nama" required></div></div><div class="modal-footer border-0 bg-light"><button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary btn-sm" id="btnSaveDepartemen">Simpan</button></div></form></div></div></div>
 
   <!-- SCRIPTS -->
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -183,5 +223,27 @@
   <script src="js/model.js"></script>
   <script src="js/view.js"></script>
   <script src="js/controller.js"></script>
+
+  <script>
+    // Fungsi pendukung untuk buka-tutup sidebar di layar HP/iOS
+    function toggleSidebar() {
+      const sidebar = document.getElementById('adminSidebar');
+      sidebar.classList.toggle('mobile-show');
+    }
+    
+    // Auto sembunyikan bar mobile ketika masuk ke area admin
+    const originalAlihkanKeAdmin = LogistikView.alihkanKeAdmin;
+    LogistikView.alihkanKeAdmin = function() {
+      originalAlihkanKeAdmin();
+      document.getElementById('mobileHeaderBar').classList.remove('hidden');
+    };
+
+    const originalAlihkanKePublik = LogistikView.alihkanKePublik;
+    LogistikView.alihkanKePublik = function() {
+      originalAlihkanKePublik();
+      document.getElementById('mobileHeaderBar').classList.add('hidden');
+      document.getElementById('adminSidebar').classList.remove('mobile-show');
+    };
+  </script>
 </body>
 </html>
